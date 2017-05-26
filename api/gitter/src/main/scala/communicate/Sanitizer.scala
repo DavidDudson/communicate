@@ -1,4 +1,4 @@
-package org.multibot
+package communicate
 
 object Sanitizer {
 

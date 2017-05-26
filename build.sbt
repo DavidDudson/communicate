@@ -21,6 +21,21 @@ lazy val scalaInterpreter =
       )
     .dependsOn(coreInterpreter)
 
+lazy val gitterApi =
+  project.in(file("api/gitter"))
+    .settings(
+      dependencyOverrides += "com.squareup.okio" % "okio" % "1.11.0",
+      libraryDependencies += "com.github.amatkivskiy" % "gitter.sdk.async" % "1.6.0",
+      libraryDependencies += "com.github.amatkivskiy" % "gitter.sdk.sync" % "1.6.0",
+      libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1",
+      libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test",
+      libraryDependencies += "com.google.guava" % "guava" % "22.0",
+      libraryDependencies += "org.slf4j" % "slf4j-simple" % "1.7.10"
+    )
+    // Todo break this dependency
+    .dependsOn(scalaInterpreter)
+
+
 lazy val root =
   aggregateProjects(
     coreInterpreter,

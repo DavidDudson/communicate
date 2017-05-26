@@ -1,6 +1,4 @@
-package org.multibot
-
-import java.util
+package communicate
 
 import com.amatkivskiy.gitter.sdk.Constants
 import com.amatkivskiy.gitter.sdk.api.builder.GitterApiBuilder
@@ -13,11 +11,10 @@ import com.amatkivskiy.gitter.sdk.model.response.message.{MessageResponse, UnRea
 import com.amatkivskiy.gitter.sdk.model.response.room.RoomResponse
 import com.amatkivskiy.gitter.sdk.model.response.room.welcome.{WelcomeMessageContainer, WelcomeResponse}
 import com.amatkivskiy.gitter.sdk.sync.api.SyncGitterApi
-import com.amatkivskiy.gitter.sdk.sync.client.SyncGitterApiClient
-import com.google.gson.{Gson, GsonBuilder}
-import retrofit.converter.GsonConverter
 import com.amatkivskiy.gitter.sdk.util.RequestUtils.convertChatMessagesParamsToMap
+import com.google.gson.{Gson, GsonBuilder}
 import org.slf4j.LoggerFactory
+import retrofit.converter.GsonConverter
 
 import scala.collection.JavaConverters._
 import scala.util.{Failure, Try}
