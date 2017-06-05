@@ -1,4 +1,4 @@
-package communicate.api.gitter
+package communicate.api.core
 
 import scala.util.matching.Regex
 

@@ -9,6 +9,7 @@ import com.amatkivskiy.gitter.sdk.async.faye.model.MessageEvent
 import com.amatkivskiy.gitter.sdk.model.response.message.MessageResponse
 import com.amatkivskiy.gitter.sdk.model.response.room.RoomResponse
 import com.google.common.cache.{Cache, CacheBuilder}
+import communicate.api.core._
 import communicate.intepreter.core.Interpreter
 import okhttp3.OkHttpClient
 import org.slf4j.LoggerFactory
