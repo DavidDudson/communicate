@@ -21,6 +21,8 @@ class CommandTest extends FlatSpec {
            |1 + 1
            | 1 + 1
            |```""".stripMargin)
+    ensureNotInterpretableMessage("Foo")
+    ensureNotInterpretableMessage("```Foo```")
   }
 
   "Embedded interpretable messages" should "be valid" in {
@@ -138,6 +140,15 @@ class CommandTest extends FlatSpec {
       s match {
         case InterpretableMessage(_) => succeed
         case _ => fail("Was not interpretable")
+      }
+    }
+  }
+
+  def ensureNotInterpretableMessage(s: String): Unit = {
+    withClue(s) {
+      s match {
+        case InterpretableMessage(_) => fail("Was interpretable")
+        case _ => succeed
       }
     }
   }
