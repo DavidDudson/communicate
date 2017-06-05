@@ -52,7 +52,8 @@ lazy val scalaCompilerDependencies =
 val commonSettings = Defaults.coreDefaultSettings ++ Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.12.2",
-  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
+  scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
+  coverageEnabled := true
 )
 
 lazy val coreInterpreter =
@@ -81,8 +82,7 @@ lazy val gitterApi =
       cacheDependencies,
       testDependencies,
       loggerDependencies,
-      doNotPublishSettings
-    )
+      doNotPublishSettings)
     .dependsOn(
       coreInterpreter,
       coreApi)
