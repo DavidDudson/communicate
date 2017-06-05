@@ -14,7 +14,6 @@ val publishSettings =
       .map(Credentials(_))
   )
 
-
 lazy val gitterDependencies =
   Seq(
     dependencyOverrides += "com.squareup.okio" % "okio" % "1.11.0",
