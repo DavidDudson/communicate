@@ -1,5 +1,6 @@
 package communicate.api.gitter
 
+import communicate.api.gitter.{EmbeddedCommand, PlainInterpretableMessage, PrefixedCommand}
 import org.scalatest.FlatSpec
 
 class CommandTest extends FlatSpec {

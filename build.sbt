@@ -64,6 +64,15 @@ lazy val coreInterpreter =
       doNotPublishSettings
     )
 
+lazy val coreApi =
+  project.in(file("api/core"))
+    .settings(
+      commonSettings,
+      testDependencies,
+      doNotPublishSettings
+    )
+
+
 lazy val gitterApi =
   project.in(file("api/gitter"))
     .settings(
@@ -74,7 +83,9 @@ lazy val gitterApi =
       loggerDependencies,
       doNotPublishSettings
     )
-    .dependsOn(coreInterpreter)
+    .dependsOn(
+      coreInterpreter,
+      coreApi)
 
 lazy val root =
   aggregateProjects(

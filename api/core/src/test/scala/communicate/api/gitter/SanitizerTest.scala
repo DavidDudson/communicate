@@ -1,5 +1,6 @@
 package communicate.api.gitter
 
+import communicate.api.gitter.Sanitizer
 import org.scalatest.{Assertion, FlatSpec}
 
 class SanitizerTest extends FlatSpec {
