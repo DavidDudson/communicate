@@ -1,4 +1,4 @@
-package communicate
+package communicate.api.gitter
 
 import com.amatkivskiy.gitter.sdk.Constants
 import com.amatkivskiy.gitter.sdk.api.builder.GitterApiBuilder

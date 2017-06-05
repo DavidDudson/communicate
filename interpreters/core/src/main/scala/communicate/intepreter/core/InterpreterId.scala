@@ -1,5 +1,4 @@
-package communicate
-
+package communicate.intepreter.core
 
 /**
   * The idea behind this is you may want multiple interpreters

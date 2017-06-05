@@ -65,15 +65,6 @@ lazy val coreInterpreter =
       doNotPublishSettings
     )
 
-lazy val scalaInterpreter =
-  project.in(file("interpreters/scala"))
-    .settings(
-      commonSettings,
-      scalaCompilerDependencies,
-      doNotPublishSettings
-    )
-    .dependsOn(coreInterpreter)
-
 lazy val gitterApi =
   project.in(file("api/gitter"))
     .settings(
@@ -84,12 +75,10 @@ lazy val gitterApi =
       loggerDependencies,
       doNotPublishSettings
     )
-    // Todo break this dependency
-    .dependsOn(scalaInterpreter)
+    .dependsOn(coreInterpreter)
 
 lazy val root =
   aggregateProjects(
     coreInterpreter,
-    scalaInterpreter,
     gitterApi
   )

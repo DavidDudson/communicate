@@ -1,4 +1,4 @@
-package communicate
+package communicate.api.gitter
 
 object IntepretableMessage {
   def unapply(input: String): Option[String] =

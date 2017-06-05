@@ -1,4 +1,4 @@
-package org.multibot
+package communicate.api.gitter
 
 import org.scalatest.{Assertion, FlatSpec}
 

@@ -1,4 +1,4 @@
-package communicate
+package communicate.api.gitter
 
 import java.util
 import java.util.concurrent.TimeUnit
@@ -9,12 +9,14 @@ import com.amatkivskiy.gitter.sdk.async.faye.model.MessageEvent
 import com.amatkivskiy.gitter.sdk.model.response.message.MessageResponse
 import com.amatkivskiy.gitter.sdk.model.response.room.RoomResponse
 import com.google.common.cache.{Cache, CacheBuilder}
+import communicate.intepreter.core.Interpreter
 import okhttp3.OkHttpClient
 import org.slf4j.LoggerFactory
 
 import scala.util.Try
+import monix.execution.Scheduler.Implicits.global
 
-case class GitterBot(cache: ScalaInterpreter, accountToken: String, roomsToJoin: List[String]) {
+case class GitterBot(interpreter: Interpreter, accountToken: String, roomsToJoin: List[String]) {
 
   private final val LOGGER = LoggerFactory.getLogger(GitterBot.getClass)
   var debugMode: Boolean = false
@@ -160,46 +162,10 @@ case class GitterBot(cache: ScalaInterpreter, accountToken: String, roomsToJoin:
           .isSuccess
     })
 
-    def interpret(s: String): String = {
-      val out = cache.scalaInterpreter(id) { (si, cout) =>
-        var out = ""
-        import scala.tools.nsc.interpreter.Results._
-
-        si interpret Sanitizer.sanitizeInput(s) match {
-          case Success =>
-            out += cout.toString.replaceAll("(?m:^res[0-9]+: )", "")
-            out += "\n"
-          case Error =>
-            out += cout.toString.replaceAll("^<console>:[0-9]+: ", "")
-            out += "\n"
-          case Incomplete =>
-            out += "error: unexpected EOF found, incomplete expression"
-            out += "\n"
-        }
-
-        out
-      }
-
-      if (debugMode) {
-        LOGGER.info(s"""=======================================
-                       |Input:
-                       |
-           |$s
-                       |
-           |Output:
-                       |
-           |$out
-                       |=======================================
-         """.stripMargin)
-      }
-
-      out
-    }
-
     /** Create a new message by interpreting the input in this room */
     def create(messageId: String, input: String) =
       rest.sendMessage(id, "Interpreting... Please wait")
-        .flatMap(r => rest.updateMessage(id, r.id, Sanitizer.sanitizeOutput(interpret(input))))
+        .flatMap(r => rest.updateMessage(id, r.id, unsafeIntepretAndSanitize(input)))
         .foreach { r =>
           recentMessageIdCache.put(messageId, r.id)
         }
@@ -212,11 +178,15 @@ case class GitterBot(cache: ScalaInterpreter, accountToken: String, roomsToJoin:
           recentMessageIdCache.invalidate(i)
         }
 
+    def unsafeIntepretAndSanitize(input: String) = {
+      Sanitizer.sanitizeOutput(interpreter.interpret(input).coeval.value.getOrElse(""))
+    }
+
     /** Update an existing response in this room. */
     def update(messageId: String, input: String) =
       Option(recentMessageIdCache.getIfPresent(messageId))
         .flatMap(i => rest.updateMessage(id, i, "Interpreting... Please wait").toOption)
-        .flatMap(r => rest.updateMessage(id, r.id, Sanitizer.sanitizeOutput(interpret(input))).toOption)
+        .flatMap(r => rest.updateMessage(id, r.id, unsafeIntepretAndSanitize(input)).toOption)
         .foreach { r =>
           recentMessageIdCache.put(messageId, r.id)
         }
