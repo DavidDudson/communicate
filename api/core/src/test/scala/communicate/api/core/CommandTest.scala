@@ -8,6 +8,21 @@ class CommandTest extends FlatSpec {
     ensurePlainInterpretableMessage("! 1 + 1")
   }
 
+  "Negated cases of interpretable messages" should "not be valid" in {
+    ensureNotPrefixedCommand(
+      """```scala
+        |! 1 + 1
+        |```""".stripMargin)
+    ensureNotEmbeddedCommand(
+      raw"""!
+           |```scala
+           |1 + 1
+           |   1 + 1
+           |1 + 1
+           | 1 + 1
+           |```""".stripMargin)
+  }
+
   "Embedded interpretable messages" should "be valid" in {
     ensureEmbeddedCommand("`! 1 + 1`")
     ensureEmbeddedCommand("```! 1 + 1```")
@@ -91,11 +106,29 @@ class CommandTest extends FlatSpec {
     }
   }
 
+  def ensureNotPrefixedCommand(s: String): Unit = {
+    withClue(s) {
+      s match {
+        case PrefixedCommand(_) => fail("Was a prefixed command")
+        case _ => succeed
+      }
+    }
+  }
+
   def ensureEmbeddedCommand(s: String): Unit = {
     withClue(s) {
       s match {
         case EmbeddedCommand(_) => succeed
         case _ => fail("Was not an embedded command")
+      }
+    }
+  }
+
+  def ensureNotEmbeddedCommand(s: String): Unit = {
+    withClue(s) {
+      s match {
+        case EmbeddedCommand(_) => fail("Was an embedded command")
+        case _ => succeed
       }
     }
   }
