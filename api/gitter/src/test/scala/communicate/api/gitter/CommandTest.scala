@@ -29,20 +29,19 @@ class CommandTest extends FlatSpec {
     ensurePrefixedCommand("! `1 + 1`")
     ensurePrefixedCommand("! ```1 + 1```")
     ensurePrefixedCommand("! ``` 1 + 1 ```")
-// Broken
-//    ensurePrefixedCommand(
-//      raw"""!
-//        |```scala
-//        |1 + 1
-//        |```""".stripMargin)
-//    ensurePrefixedCommand(
-//      raw"""!
-//        |```scala
-//        |1 + 1
-//        |   1 + 1
-//        |1 + 1
-//        | 1 + 1
-//        |```""".stripMargin)
+    ensurePrefixedCommand(
+      raw"""!
+        |```scala
+        |1 + 1
+        |```""".stripMargin)
+    ensurePrefixedCommand(
+      raw"""!
+        |```scala
+        |1 + 1
+        |   1 + 1
+        |1 + 1
+        | 1 + 1
+        |```""".stripMargin)
   }
 
   def ensurePlainInterpretableMessage(s: String): Unit = {

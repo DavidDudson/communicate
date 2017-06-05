@@ -1,5 +1,7 @@
 package communicate.api.gitter
 
+import scala.util.matching.Regex
+
 object IntepretableMessage {
   def unapply(input: String): Option[String] =
     input match {
@@ -15,9 +17,15 @@ object IntepretableMessage {
 object PlainInterpretableMessage {
   def unapply(input: String): Option[String] =
     Option(input)
-      .filter(_.startsWith("! "))
+      .filter(CommandUtils.isCommand)
       .filter(s => Sanitizer.sanitizeInput(s) == s)
       .map(_.drop(2))
+}
+
+object CommandUtils {
+  val commandRegex: Regex = "^!\\s+.*".r
+  def isCommand(s: String): Boolean =
+    commandRegex.findFirstIn(s).isDefined
 }
 
 /**
@@ -30,7 +38,7 @@ object EmbeddedCommand {
   def unapply(input: String): Option[String] =
     Option(input)
       .map(Sanitizer.sanitizeInput)
-      .filter(_.startsWith("! "))
+      .filter(CommandUtils.isCommand)
       .map(_.drop(2))
 }
 
@@ -44,7 +52,7 @@ object EmbeddedCommand {
 object PrefixedCommand {
   def unapply(input: String): Option[String] =
     Option(input)
-      .filter(_.startsWith("! "))
+      .filter(CommandUtils.isCommand)
       .map(_.drop(2))
       .map(Sanitizer.sanitizeInput)
 }
