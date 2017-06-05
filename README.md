@@ -1,5 +1,9 @@
 # Communicate
 
+Build: [![Build Status](https://travis-ci.org/DavidDudson/communicate.svg?branch=master)](https://travis-ci.org/DavidDudson/communicate)
+Coverage: [![codecov](https://codecov.io/gh/DavidDudson/communicate/branch/master/graph/badge.svg)](https://codecov.io/gh/DavidDudson/communicate)
+
+
 ## About 
 
 Communicate is a spiritual successor to lopex/multibot and OlegYch/multibot
