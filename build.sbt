@@ -1,3 +1,5 @@
+import sbt.Keys.resolvers
+
 name := "communicate"
 
 scalaVersion := "2.12.2"
@@ -45,7 +47,8 @@ lazy val asyncDependencies =
 lazy val scalaCompilerDependencies =
   Seq(
     libraryDependencies += "org.scala-lang" % "scala-compiler" % scalaVersion.value,
-    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value
+    libraryDependencies += "org.scala-lang" % "scala-reflect" % scalaVersion.value,
+    resolvers += Resolver.typesafeRepo("release")
   )
 
 
@@ -53,8 +56,8 @@ val commonSettings = Defaults.coreDefaultSettings ++ Seq(
   version := "0.1.0-SNAPSHOT",
   scalaVersion := "2.12.2",
   scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature"),
-  coverageEnabled := true
-)
+  coverageEnabled := true,
+  resolvers += Resolver.jcenterRepo)
 
 lazy val coreInterpreter =
   project.in(file("interpreters/core"))
