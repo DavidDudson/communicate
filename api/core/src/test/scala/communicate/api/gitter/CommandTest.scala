@@ -1,6 +1,5 @@
 package communicate.api.gitter
 
-import communicate.api.gitter.{EmbeddedCommand, PlainInterpretableMessage, PrefixedCommand}
 import org.scalatest.FlatSpec
 
 class CommandTest extends FlatSpec {
@@ -45,11 +44,49 @@ class CommandTest extends FlatSpec {
         |```""".stripMargin)
   }
 
+  "Interpretable Commands" should "be valid" in {
+    ensureInterpretableMessage(
+      raw"""!
+           |```scala
+           |1 + 1
+           |```""".stripMargin)
+    ensureInterpretableMessage(
+      raw"""!
+           |```scala
+           |1 + 1
+           |   1 + 1
+           |1 + 1
+           | 1 + 1
+           |```""".stripMargin)
+    ensureInterpretableMessage(
+      raw"""```scala
+           |!
+           |1 + 1
+           |```""".stripMargin)
+    ensureInterpretableMessage(
+      raw"""```scala
+           |!
+           | 1 + 1
+           |   1 + 1
+           |1 + 1
+           | 1 + 1
+           |```""".stripMargin)
+  }
+
   def ensurePlainInterpretableMessage(s: String): Unit = {
     withClue(s) {
       s match {
         case PlainInterpretableMessage(_) => succeed
         case _ => fail("Was not a plain interpretable message")
+      }
+    }
+  }
+
+  def ensurePrefixedCommand(s: String): Unit = {
+    withClue(s) {
+      s match {
+        case PrefixedCommand(_) => succeed
+        case _ => fail("Was not a prefixed command")
       }
     }
   }
@@ -63,11 +100,11 @@ class CommandTest extends FlatSpec {
     }
   }
 
-  def ensurePrefixedCommand(s: String): Unit = {
+  def ensureInterpretableMessage(s: String): Unit = {
     withClue(s) {
       s match {
-        case PrefixedCommand(_) => succeed
-        case _ => fail("Was not a prefixed command")
+        case InterpretableMessage(_) => succeed
+        case _ => fail("Was not interpretable")
       }
     }
   }

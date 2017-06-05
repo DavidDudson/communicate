@@ -84,12 +84,12 @@ case class GitterBot(interpreter: Interpreter, accountToken: String, roomsToJoin
           case PlainInterpretableMessage(input) =>
             updateIncomingMessage(messageId, input)
             create(messageId, input)
-          case IntepretableMessage(input) if isCreate(message) =>
+          case InterpretableMessage(input) if isCreate(message) =>
             updateIncomingMessage(messageId, input)
             create(messageId, input)
-          case IntepretableMessage(input) if isUpdateOfCommand(message, messageId) =>
+          case InterpretableMessage(input) if isUpdateOfCommand(message, messageId) =>
             update(messageId, input)
-          case IntepretableMessage(input) if isUpdateOfNonCommand(message, messageId) && isLastMessage(messageId) =>
+          case InterpretableMessage(input) if isUpdateOfNonCommand(message, messageId) && isLastMessage(messageId) =>
             update(messageId, input)
           case _ if isUpdateOfCommand(message, messageId) =>
             delete(messageId)

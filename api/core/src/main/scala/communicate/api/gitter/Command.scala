@@ -2,7 +2,7 @@ package communicate.api.gitter
 
 import scala.util.matching.Regex
 
-object IntepretableMessage {
+object InterpretableMessage {
   def unapply(input: String): Option[String] =
     input match {
       case EmbeddedCommand(i) => Some(i)
