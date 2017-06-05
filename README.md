@@ -7,11 +7,17 @@ Communicate is a spiritual successor to lopex/multibot and OlegYch/multibot
 This family of libraries allows you to
 create a bot that enables code interpretation.
 
-Currently each bot implementation is just a 
-fork of multibot so if a specific bot fixes a bug, 
-It has to be propagated out to the other repos manually.
+Currently the difficulty arises when a fork of multibot fixes a bug,
+It has to be propagated out to the other repos manually, often times with individual fixes.
+It would be nice if we had a sane way of versioning these different things.
 
-This is often useful for educational purposes. 
+Also given that now both IRC and Gitter are supported in multibot (DavidDudson/multibot), 
+and not everyone wants both, nor should they be required to. 
+Nor should every bot manage interpreters for 20 different programming languages.
+
+This is where the modularity comes in.
+
+Often using the bot is useful for educational purposes. 
 Or finding if a bug is reproducible.
 
 ## Goals
@@ -38,6 +44,7 @@ Or finding if a bug is reproducible.
   - JVM
   - JS
   - Native
+  - Possibly a scastie backend 
 - Haskell
 - Idris
 
